@@ -1,25 +1,25 @@
 import java.util.Arrays;
 
 public class GreedyAlgoPQ {
-    public static int ans=Integer.MAX_VALUE;
-    public static void solve(int a[],int n,int k,int index,int sum,int maxsum){
-        if(k==1){
-            maxsum=Math.max(sum,maxsum);
-            sum=0;
-            for(int i=index;i<n;i++){
-                sum+=a[i];
-            }
-            maxsum=Math.max(sum,maxsum);
-            ans=Math.min(ans,maxsum);
-            return ;
-        }
-        sum=0;
-        for(int i=index;i<n;i++){
-            sum+=a[i];
-            maxsum=Math.max(maxsum,sum);
-            solve(a,n,k-1,i+1,sum,maxsum);
-        }
-    }
+//    public static int ans=Integer.MAX_VALUE;
+//    public static void solve(int a[],int n,int k,int index,int sum,int maxsum){
+//        if(k==1){
+//            maxsum=Math.max(sum,maxsum);
+//            sum=0;
+//            for(int i=index;i<n;i++){
+//                sum+=a[i];
+//            }
+//            maxsum=Math.max(sum,maxsum);
+//            ans=Math.min(ans,maxsum);
+//            return ;
+//        }
+//        sum=0;
+//        for(int i=index;i<n;i++){
+//            sum+=a[i];
+//            maxsum=Math.max(maxsum,sum);
+//            solve(a,n,k-1,i+1,sum,maxsum);
+//        }
+//    }
     public static void main(String[] args) {
 //        String str="LRRRRLLRLLRL";
 //        int l=0,r=0;
@@ -87,8 +87,8 @@ public class GreedyAlgoPQ {
 //            }
 //        }
 //        System.out.println(maxprofit);
-        int arr[]={1,2,3,4};
-        solve(arr,4,3,0,0,0);
-        System.out.println(ans);
+//        int arr[]={1,2,3,4};
+//        solve(arr,4,3,0,0,0);
+//        System.out.println(ans);
     }
 }
