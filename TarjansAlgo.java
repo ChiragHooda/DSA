@@ -1,44 +1,100 @@
 import java.util.*;
 
 public class TarjansAlgo {
-    static int time=0;
-    static void APUtil(ArrayList<ArrayList<Integer>> adj,int u,boolean vis[], int disc[],int low[],
-                       int parent,boolean isAP[]){
-        int children=0;
-        vis[u]=true;
-        disc[u]=low[u]=++time;
-        for(Integer v:adj.get(u)){
-            if(!vis[v]){
-                children++;
-                APUtil(adj,v,vis,disc,low,u,isAP);
-                low[u]=Math.min(low[u],low[v]);
-                if(parent!=-1&&low[v]>disc[u]){
-                    isAP[u]=true;
-                }
-            }else if(v!=parent){
-                low[u]=Math.min(low[u],disc[v]);
-            }
-        }
-        if(parent==-1&&children>1){
-            isAP[u]=true;
+//    static int time=0;
+//    static void APUtil(ArrayList<ArrayList<Integer>> adj,int u,boolean vis[], int disc[],int low[],
+//                       int parent,boolean isAP[]){
+//        int children=0;
+//        vis[u]=true;
+//        disc[u]=low[u]=++time;
+//        for(Integer v:adj.get(u)){
+//            if(!vis[v]){
+//                children++;
+//                APUtil(adj,v,vis,disc,low,u,isAP);
+//                low[u]=Math.min(low[u],low[v]);
+//                if(parent!=-1&&low[v]>disc[u]){
+//                    isAP[u]=true;
+//                }
+//            }else if(v!=parent){
+//                low[u]=Math.min(low[u],disc[v]);
+//            }
+//        }
+//        if(parent==-1&&children>1){
+//            isAP[u]=true;
+//        }
+//    }
+//    static void AP(ArrayList<ArrayList<Integer>> adj, int V){
+//        boolean vis[]=new boolean[V];
+//        int disc[]=new int[V];
+//        int low[]=new int[V];
+//        boolean[] isAP=new boolean[V];
+//        for(int u=0;u<V;u++){
+//            if(vis[u]==false){
+//                APUtil(adj,u,vis,disc,low,-1,isAP);
+//            }
+//        }
+//        for(int u=0;u<V;u++){
+//            if(isAP[u]==true){
+//                System.out.print(u+" ");
+//            }
+//        }
+//        System.out.println();
+//    }
+    static class Edge{
+        int src;
+        int dest;
+        public Edge(int src,int dest){
+            this.src=src;
+            this.dest=dest;
         }
     }
-    static void AP(ArrayList<ArrayList<Integer>> adj, int V){
-        boolean vis[]=new boolean[V];
-        int disc[]=new int[V];
+    public static void dfs(ArrayList<Edge> graph[],int curr,int par,int dt[],
+                           int low[],int time,boolean vis[],boolean ap[]){
+        vis[curr]=true;
+        dt[curr]=low[curr]=++time;
+        int children=0;
+
+        for(int i=0;i<graph[curr].size();i++){
+            Edge e=graph[curr].get(i);
+            int neigh=e.dest;
+
+            if(par==neigh){
+                continue;
+            }else if(vis[neigh]){
+                low[curr]=Math.min(low[curr],dt[neigh]);
+            }else{
+                dfs(graph,neigh,curr,dt,low,time,vis,ap);
+                low[curr]=Math.min(low[curr],low[neigh]);
+                if(par!=-1&&dt[curr]<=low[neigh]){
+//                    System.out.println("AP: "+curr);
+                    ap[curr]=true;
+                }
+                children++;
+            }
+        }
+        if(par==-1 && children>1){
+//            System.out.println("AP :"+curr);
+            ap[curr]=true;
+        }
+    }
+    public static void getAP(ArrayList<Edge> graph[],int V){
+        int dt[]=new int[V];
         int low[]=new int[V];
-        boolean[] isAP=new boolean[V];
-        for(int u=0;u<V;u++){
-            if(vis[u]==false){
-                APUtil(adj,u,vis,disc,low,-1,isAP);
+        int time=0;
+        boolean vis[]=new boolean[V];
+        boolean ap[]=new boolean[V];
+
+        for(int i=0;i<V;i++){
+            if(!vis[i]){
+                dfs(graph,i,-1,dt,low,time,vis,ap);
             }
         }
-        for(int u=0;u<V;u++){
-            if(isAP[u]==true){
-                System.out.print(u+" ");
+
+        for(int i=0;i<V;i++){
+            if(ap[i]){
+                System.out.println("AP : "+i);
             }
         }
-        System.out.println();
     }
 
     public static void main(String[] args) {
