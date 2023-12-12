@@ -121,6 +121,6 @@ public class TarjansAlgo {
 //        adj1.get(5).add(6);
         System.out.println(adj1);
         System.out.println("APs are : ");
-        AP(adj1,V);
+//        AP(adj1,V);
     }
 }
